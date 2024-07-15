@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>hexviz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {text-align: center; margin: 60px auto 60px;}
+#container {display: flex; flex-wrap: wrap;}
+</style>
+</head>
+<body>
+<h1>hexviz</h1>
+<label for="hexinput">input hex color codes, comma separated</label>
+<br>
+<textarea id="in" name="hexinput" rows="5" cols="50" placeholder="quoted or unquoted, with or without leading #"></textarea>
+<br><br>
+<button onclick="show()">show me!</button> 
+<br><br>
+<div id="container"></div>
+<script>
+function show() {
+    const container = document.getElementById("container");
+    container.innerHTML = "";
+
+    const hexvals_raw = document.getElementById("in").value.replaceAll('"', '').replaceAll("'", "");
+    var hexvals = hexvals_raw.split(",");
+
+    for (var i=0; i<hexvals.length; i++) {
+        var color = hexvals[i]; 
+        if (color.charAt(0) != "#") {
+            color = "#" + color;
+        }
+        var newcolor = document.createElement("div");
+        newcolor.style = `height: 150px; width: 150px; display: flex; align-items: flex-end; background: ${color}`
+        newcolor.innerHTML = `<p style='background: black; color: white; margin: 0 auto;'>${color}</p>`;
+        container.appendChild(newcolor);
+    }
+}
+document.body.addEventListener('keydown', (event) => {
+    if(event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+        show();
+    }
+});
+</script>
+</body>
+</html>
